@@ -20,10 +20,24 @@ function App() {
     prism.highlightAll()
   }, [])
 
-  async function reviewCode() {
-    const response = await axios.post('http://localhost:3000/ai/get-review', { code })
-    setReview(response.data)
+  // async function reviewCode() {
+  //   const response = await axios.post('http://localhost:3000/ai/get-review', { code })
+  //   setReview(response.data)
+  // }
+async function reviewCode() {
+  try {
+    const response = await axios.post('http://localhost:3000/ai/get-review', { prompt: code })
+    setReview(response.data.review) // ya backend ka response jo hai
+  } catch (err) {
+    console.error("Axios error:", err.response?.data || err.message)
+    console.log("Sending to backend:", { prompt: code })
+
   }
+}
+
+
+
+
 
   return (
     <>
@@ -64,3 +78,5 @@ function App() {
 
 
 export default App
+
+
